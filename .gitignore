@@ -16,3 +16,6 @@ logs/
 *.mp4
 libero.egg-info/
 .vscode/
+**/bddl_files/
+**/init_files/
+**/scene_comparisons

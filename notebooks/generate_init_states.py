@@ -3,11 +3,11 @@
 
 """
 generate_init_states.py
-- 从指定 bddl_base_dir 读取所有 .bddl
-- 为每个任务生成 num_inits 个初始状态
-- 保存为 .pruned_init 压缩文件到 output_dir
+- Read all .bddl files from the specified bddl_base_dir
+- Generate num_inits initial states for each task
+- Save as .pruned_init compressed files to output_dir
 
-用法示例：
+Usage example:
     python generate_init_states.py \
         --bddl_base_dir /path/to/bddl_dir \
         --output_dir /path/to/output_dir \
@@ -38,17 +38,17 @@ def generate_init_states(
     output_dir = Path(output_dir).resolve()
     os.makedirs(output_dir, exist_ok=True)
 
-    # 获取所有 .bddl 文件
+    # Get all .bddl files
     bddl_files = list(bddl_base_dir.glob("*.bddl"))
-    print(f"找到 {len(bddl_files)} 个 BDDL 文件")
+    print(f"Found {len(bddl_files)} BDDL files")
 
-    for bddl_file in tqdm(bddl_files, desc="处理 BDDL 文件"):
+    for bddl_file in tqdm(bddl_files, desc="Processing BDDL files"):
         task_base_name = bddl_file.stem
-        print(f"\n开始处理任务: {task_base_name}")
+        print(f"\nStarting to process task: {task_base_name}")
 
         all_initial_states = []
 
-        for i in tqdm(range(num_inits), desc=f"生成 {task_base_name} 的初始状态"):
+        for i in tqdm(range(num_inits), desc=f"Generating initial states for {task_base_name}"):
             env = None
             try:
                 env_args = {
@@ -62,7 +62,7 @@ def generate_init_states(
                 all_initial_states.append(initial_state)
 
             except Exception as e:
-                print(f"  生成第 {i+1} 个状态时出错: {e}")
+                print(f"  Error generating state {i+1}: {e}")
 
             finally:
                 if env is not None and hasattr(env, 'close'):
@@ -78,12 +78,12 @@ def generate_init_states(
                 zipf.writestr("archive/data.pkl", pickled_states_list)
                 zipf.writestr("archive/version", b"1")
 
-            print(f"成功保存 {len(all_initial_states)} 个状态到: {output_filepath}")
+            print(f"Successfully saved {len(all_initial_states)} states to: {output_filepath}")
 
         except Exception as e:
-            print(f"保存状态列表时出错: {e}")
+            print(f"Error saving state list: {e}")
 
-    print("\n所有任务处理完成！")
+    print("\nAll tasks processing complete!")
 
 
 def parse_args():

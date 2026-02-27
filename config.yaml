@@ -1,0 +1,5 @@
+assets: /home/abucker/policy_abstraction/third_party/LIBERO-PRO/libero/libero/./assets
+bddl_files: /home/abucker/policy_abstraction/third_party/LIBERO-PRO/libero/libero/./bddl_files
+benchmark_root: /home/abucker/policy_abstraction/third_party/LIBERO-PRO/libero/libero
+datasets: /scratch/abucker/datasets
+init_states: /home/abucker/policy_abstraction/third_party/LIBERO-PRO/libero/libero/./init_files
