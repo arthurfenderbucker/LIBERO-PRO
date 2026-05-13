@@ -39,6 +39,12 @@ def get_libero_path(query_key):
     with open(config_file, "r") as f:
         config = dict(yaml.load(f.read(), Loader=yaml.FullLoader))
 
+    # Expand ${VAR} and ~ in each path so configs can use placeholders like
+    # ${LIBERO_PRO_PATH}/... and stay portable across machines.
+    for key, value in list(config.items()):
+        if isinstance(value, str):
+            config[key] = os.path.expandvars(os.path.expanduser(value))
+
     # Give warnings in case the user needs to access the paths
     for key in config:
         if not os.path.exists(config[key]):
